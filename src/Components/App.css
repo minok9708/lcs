@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+}
+
+#App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+#curLocBtn {
+  width: 20%;
+  margin-top: 15%;
+  border-radius: 50%;
+  padding: 5%;
+  background-color: #e4e4e4;
+}
+
+.App-link {
+  color: black;
+  font-size: 0.8rem;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
+input[type="search"] {
+  width: 30%;
+  padding: 1%;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-width: 1px;
+  margin-top: 10%;
+  outline: none;
+}
+
+#searchMain {
+  width: 6%;
+  padding: 1%;
+  border-radius: 30%;
+  margin-left: 1%;
+}
+
+#Login {
+  margin-top: 5%;
+}

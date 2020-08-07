@@ -1,0 +1,12 @@
+#hr2{  /*점포정보 등록 머리글 구분선 */
+    width: 50%;
+    border: solid 0.1em;
+    background-color: darkblue;
+}
+
+input[type=button]{
+    border-radius: 20px;
+    border-color:#707070 ;
+    background-color:#707070 ;
+    color: white;
+}

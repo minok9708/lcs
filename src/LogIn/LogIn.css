@@ -1,0 +1,48 @@
+#content{
+    margin-top: 20%;
+    text-align: center;
+}
+
+input[type=text]{          /*아이디 입력 창*/
+    width: 24%;
+    padding: 1%;
+}
+input[type=password]{    /*비밀번호 입력 창*/
+    width:24%;
+    padding: 1%;
+    margin-top: 1%;
+}
+
+#login{      /*로그인 버튼*/
+    width: 26%;
+    margin: 2%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: aliceblue;
+    background-color: black;
+}    
+
+#signUpBtn{
+    width: 11%;
+    border-radius: 6px;
+    border: 1px solid #4A95E5;
+    background-color: #4A95E5;
+    color: white;
+    margin-left: 0.3%;
+}
+ 
+#idSearchBtn{   /* 아이디 찾기 버튼 */
+    width: 11%;
+    border-radius: 6px;
+    border: 1px solid gray;
+}
+
+#pwSearchBtn{   /* 비밀번호 찾기 버튼 */
+    width: 11%;
+    border-radius: 6px;
+    border: 1px solid gray;
+    margin-left: 0.3%;
+}
+

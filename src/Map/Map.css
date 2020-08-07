@@ -1,0 +1,19 @@
+input[type="search"] {
+  width: 30%;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-width: 0.8px;
+  outline: none;
+}
+
+input[type="submit"] {
+  width: 15%;
+  border-radius: 15%;
+}
+
+fieldset {
+  width: 30%;
+  border-radius: 1rem 1rem;
+  /*border: none;*/
+}
