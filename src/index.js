@@ -14,8 +14,8 @@ ReactDOM.render(
       <RenderAfterNavermapsLoaded ncpClientId="p8lftt0b2s">
         <React.StrictMode>
           <Route exact path="/" component={App}></Route>
-          <Route path="/Map" component={Map}></Route>
-          <Route path="/LogIn" component={LogIn}></Route>
+          <Route path="/map" component={Map}></Route>
+          <Route path="/login" component={LogIn}></Route>
         </React.StrictMode>
       </RenderAfterNavermapsLoaded>
     </Switch>

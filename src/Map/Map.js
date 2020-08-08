@@ -44,6 +44,7 @@ class Map extends React.Component {
   render() {
     return (
       <Fragment>
+        
         {getLocation()}
         {NaverMapAPI()}
         <view>
@@ -91,6 +92,15 @@ function NaverMapAPI() {
         animation={0} /* 마커 애니메이션설정 (0.1.2)*/
         onClick={() => {
           alert("신한대학교입니다.");
+        }}
+      ></Marker>
+        <Marker
+        id="marker4"
+        key={Marker.id}
+        position={new navermaps.LatLng(37.6505726, 127.05075719999999)}
+        animation={0} /* 마커 애니메이션설정 (0.1.2)*/
+        onClick={() => {
+          alert("영수오빠네입니다");
         }}
       ></Marker>
     </NaverMap>

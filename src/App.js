@@ -12,7 +12,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div>
-          <h1> 카 고</h1>
+          <h1> 카페어디</h1>
           <h6>주변카페 자리를 확인해보세요~</h6>
         </div>
 
@@ -21,7 +21,7 @@ class App extends React.Component {
         </div>
 
         <div>
-          <Link to="/Map">
+          <Link to="/map">
             <button id="curLocBtn" type="submit">
               현재 위치로 검색
             </button>
@@ -29,7 +29,7 @@ class App extends React.Component {
         </div>
 
         <div>
-          <Link to="/LogIn">
+          <Link to="/login">
             <button id="Login" type="submit">
               로그인
             </button>
