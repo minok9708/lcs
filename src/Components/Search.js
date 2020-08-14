@@ -36,11 +36,11 @@ class Search extends React.Component {
             this.handleChange
           } /* 택스트 값이 바뀔때마다 발생하는이벤트 */
         ></input>
-        <Link to="/Map" params={this.state.place}>
-          <button id="searchMain" type="submit">
-            검색
-          </button>
-        </Link>
+
+        <map place={this.state.place}></map>
+        <button id="searchMain" type="submit">
+          검색
+        </button>
         {/*<div>{this.state.place}</div> */}
       </form>
     );

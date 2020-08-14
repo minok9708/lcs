@@ -28,13 +28,13 @@
 }
 
 input[type="search"] {
-  width: 30%;
+  width: 60%;
   padding: 1%;
   border-top: none;
   border-right: none;
   border-left: none;
-  border-width: 1px;
-  margin-top: 10%;
+  border-width: 3px;
+ /*  margin-top: 10%;  */
   outline: none;
 }
 

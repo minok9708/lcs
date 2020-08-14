@@ -1,6 +1,7 @@
 import React from "react";
 import "./Components/App.css";
 import Search from "./Components/Search.js";
+import CafeSearch from "./CafeSearch.js";
 import {Link} from "react-router-dom";
 
 class App extends React.Component {
@@ -10,32 +11,36 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <div>
-          <h1> 카페어디</h1>
-          <h6>주변카페 자리를 확인해보세요~</h6>
-        </div>
+      <center>
+        <div className="App">
+          <div>
+            <h1> 카페어디</h1>
+            <h6>주변카페 자리를 확인해보세요~</h6>
+          </div>
 
-        <div>
-          <Search onCreate={this.handleCreate} />
-        </div>
+          <div>
+            <Link to="/CafeSearch">
+              <Search onCreate={this.handleCreate} />
+            </Link>
+          </div>
 
-        <div>
-          <Link to="/map">
-            <button id="curLocBtn" type="submit">
-              현재 위치로 검색
-            </button>
-          </Link>
-        </div>
+          <div>
+            <Link to="/Map">
+              <button id="curLocBtn" type="submit">
+                현재 위치로 검색
+              </button>
+            </Link>
+          </div>
 
-        <div>
-          <Link to="/login">
-            <button id="Login" type="submit">
-              로그인
-            </button>
-          </Link>
+          <div>
+            <Link to="/login">
+              <button id="Login" type="submit">
+                로그인
+              </button>
+            </Link>
+          </div>
         </div>
-      </div>
+      </center>
     );
   }
 }

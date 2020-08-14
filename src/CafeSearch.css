@@ -1,0 +1,25 @@
+#bar {
+  width: 100%;
+  background-color: gray;
+  padding: 2%;
+}
+
+input[type="submit"] {
+  width: 6%;
+  border-radius: 20px;
+  border: none;
+}
+h4{
+  margin-left: 20%;
+  font-size: 0.8rem;
+}
+
+#recommend {
+  width: 40%;
+  visibility: visible;
+  background-color: white;
+  border: 1px solid;
+  margin-left: 27%;
+  margin-top: -0.5%;
+  z-index: 1;
+}

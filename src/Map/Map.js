@@ -1,7 +1,8 @@
 import React, {Component, Fragment} from "react";
-import {NaverMap, Marker} from "react-naver-maps"; // 패키지 불러오기
+import {NaverMap, Marker, RenderAfterNavermapsLoaded} from "react-naver-maps"; // 패키지 불러오기
 import Search from "../Components/Search";
 import "./Map.css";
+import {findAllByPlaceholderText, render} from "@testing-library/react";
 
 class Map extends React.Component {
   // map = new naver.maps.Map('mapDiv', {option});
@@ -15,7 +16,7 @@ class Map extends React.Component {
       zoomControl: true,
       zoom: 2,
       mapTypeId: "normal",
-      center: navermaps.LatLng(36.480058, 127.289039), // 126.9861108, 37.4983439
+      center: navermaps.LatLng(36.480058, 127.289039), // 126.9861108, 37.4983439 초기 지도 위치
 
       zoomControlOptions: {
         center: new navermaps.LatLng(36.480058, 127.289039), //36.4203004, 128.317960
@@ -26,6 +27,11 @@ class Map extends React.Component {
       scaleControl: true,
       draggable: true,
       scrollWheel: true,
+      scaleControl: false,
+      logoControl: false,
+      mapDataControl: false,
+      zoomControl: true,
+      minZoom: 6,
     };
   }
   handleClick = (e) => {
@@ -44,7 +50,7 @@ class Map extends React.Component {
   render() {
     return (
       <Fragment>
-        
+        {place()}
         {getLocation()}
         {NaverMapAPI()}
         <view>
@@ -55,6 +61,14 @@ class Map extends React.Component {
   }
 }
 
+function place(props) {
+  return console.log("안녕");
+}
+
+place.defaultProps = {
+  place: "목적지 없음",
+};
+
 function NaverMapAPI() {
   const navermaps = window.naver.maps;
   return (
@@ -64,7 +78,7 @@ function NaverMapAPI() {
         width: "100%", // 네이버지도 가로 길이
         height: "922px", // 네이버지도 세로 길이
       }}
-      defaultCenter={{lat: 37.9036062 ,lng: 127.0385797}} // 지도 초기 위치
+      defaultCenter={{lat: 37.9036062, lng: 127.0385797}} // 지도 초기 위치
       defaultZoom={13} // 지도 초기 확대 배율
     >
       <Marker
@@ -94,7 +108,7 @@ function NaverMapAPI() {
           alert("신한대학교입니다.");
         }}
       ></Marker>
-        <Marker
+      <Marker
         id="marker4"
         key={Marker.id}
         position={new navermaps.LatLng(37.6505726, 127.05075719999999)}
@@ -106,7 +120,6 @@ function NaverMapAPI() {
     </NaverMap>
   );
 }
-
 /* gPS권한 허용/차단 
 getCurrentPosition:현재위치 정보 가져옴
 latitude:위도
