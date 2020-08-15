@@ -120,6 +120,7 @@ function NaverMapAPI() {
     </NaverMap>
   );
 }
+
 /* gPS권한 허용/차단 
 getCurrentPosition:현재위치 정보 가져옴
 latitude:위도

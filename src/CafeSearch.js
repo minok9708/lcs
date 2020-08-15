@@ -25,6 +25,9 @@ class CafeList extends React.Component {
     return (
       <div>
         <h4>"{}에 대한 검색 결과입니다."</h4>
+        <table>
+          
+        </table>
       </div>
     );
   }
