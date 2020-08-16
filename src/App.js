@@ -19,13 +19,13 @@ class App extends React.Component {
           </div>
 
           <div>
-            <Link to="/CafeSearch">
+            <Link to="/cafesearch">
               <Search onCreate={this.handleCreate} />
             </Link>
           </div>
 
           <div>
-            <Link to="/Map">
+            <Link to="/map">
               <button id="curLocBtn" type="submit">
                 현재 위치로 검색
               </button>

@@ -17,7 +17,7 @@ ReactDOM.render(
           <Route exact path="/" component={App}></Route>
           <Route path="/map" component={Map}></Route>
           <Route path="/login" component={LogIn}></Route>
-          <Route path="/CafeSearch" component={CafeSearch}></Route>
+          <Route path="/cafesearch" component={CafeSearch}></Route>
         </React.StrictMode>
       </RenderAfterNavermapsLoaded>
     </Switch>

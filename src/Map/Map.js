@@ -3,6 +3,7 @@ import {NaverMap, Marker, RenderAfterNavermapsLoaded} from "react-naver-maps"; /
 import Search from "../Components/Search";
 import "./Map.css";
 import {findAllByPlaceholderText, render} from "@testing-library/react";
+import { _possibleConstructorReturn } from 'react-naver-maps/dist/hocs-018c38ad';
 
 class Map extends React.Component {
   // map = new naver.maps.Map('mapDiv', {option});
@@ -156,5 +157,4 @@ function getLocation() {
     alert("GPS를 지원하지 않습니다");
   }
 }
-
 export default Map;
