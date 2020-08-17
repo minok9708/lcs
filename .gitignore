@@ -8,7 +8,7 @@ logs
 **/*.backup.*
 **/*.back.*
 
-//Dd
+node_modules
 bower_components
 
 *.sublime*
