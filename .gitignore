@@ -8,7 +8,7 @@ logs
 **/*.backup.*
 **/*.back.*
 
-vscode
+.vscode
 node_modules
 bower_components
 
