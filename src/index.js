@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {RenderAfterNavermapsLoaded} from "react-naver-maps";
 import CafeSearch from "./CafeSearch";
+import test from "./test";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -18,6 +19,7 @@ ReactDOM.render(
           <Route path="/map" component={Map}></Route>
           <Route path="/login" component={LogIn}></Route>
           <Route path="/cafesearch" component={CafeSearch}></Route>
+          <Route path="/test" component={test}></Route>
         </React.StrictMode>
       </RenderAfterNavermapsLoaded>
     </Switch>

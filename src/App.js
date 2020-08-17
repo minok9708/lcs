@@ -2,6 +2,7 @@ import React from "react";
 import "./Components/App.css";
 import Search from "./Components/Search.js";
 import CafeSearch from "./CafeSearch.js";
+import test from "./test.js";
 import {Link} from "react-router-dom";
 
 class App extends React.Component {
@@ -27,6 +28,14 @@ class App extends React.Component {
 
           <div>
             <Link to="/map">
+              <button id="curLocBtn" type="submit">
+                현재 위치로 검색
+              </button>
+            </Link>
+          </div>
+
+          <div>
+            <Link to="/test">
               <button id="curLocBtn" type="submit">
                 현재 위치로 검색
               </button>
