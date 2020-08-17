@@ -3,7 +3,7 @@ import {NaverMap, Marker, RenderAfterNavermapsLoaded} from "react-naver-maps"; /
 import Search from "../Components/Search";
 import "./Map.css";
 import {findAllByPlaceholderText, render} from "@testing-library/react";
-import { _possibleConstructorReturn } from 'react-naver-maps/dist/hocs-018c38ad';
+import {_possibleConstructorReturn} from "react-naver-maps/dist/hocs-018c38ad";
 
 class Map extends React.Component {
   // map = new naver.maps.Map('mapDiv', {option});
@@ -55,7 +55,7 @@ class Map extends React.Component {
         {getLocation()}
         {NaverMapAPI()}
         <view>
-          <div>{<Search onCreate={this.handleCreate} />}</div>
+         {/*  <div>{<Search />}</div> */}
         </view>
       </Fragment>
     );

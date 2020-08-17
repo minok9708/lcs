@@ -20,7 +20,10 @@ class App extends React.Component {
 
           <div>
             <Link to="/cafesearch">
-              <Search onCreate={this.handleCreate} />
+              <form>
+                <input type="search" />
+                <button id="searchMain">검색</button>
+              </form>
             </Link>
           </div>
 
@@ -31,7 +34,6 @@ class App extends React.Component {
               </button>
             </Link>
           </div>
-
 
           <div>
             <Link to="/login">

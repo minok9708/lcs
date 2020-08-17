@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import {Link} from "react-router-dom";
+import CafeSearch from "../CafeSearch";
 
 class Search extends React.Component {
   /* 메인페이지 검색기능 */
@@ -14,12 +15,15 @@ class Search extends React.Component {
     });
   };
 
-  handleSubmit = (e) => {//전송할 때
-    //페이지 리로딩 방지
+  appClick = () => {
+    console.log("키워드:" + this.state.place);
+  };
+
+  handleSubmit = (e) => {
+    //전송할 때 페이지 리로딩 방지()
     e.preventDefault();
     //상태값을 oncreate를 통하여 부모에게 전달
-    /* this.props.onCreate(this.state); --> DB로 키워드 보내야함*/
-    console.log(this.props);
+    this.props.onCreate(this.state);
     //상태 초기화
     this.setState({
       place: "",
@@ -27,21 +31,24 @@ class Search extends React.Component {
   };
 
   render() {
+    const {place} = this.state;
+    const {appClick} = this;
+
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="search"
-          placeholder="목적지를 검색하세요"
-          value={this.state.place}
-          onChange={
-            this.handleChange
-          } /* 택스트 값이 바뀔때마다 발생하는이벤트 */
-        ></input>
-        <button id="searchMain" type="submit">
-          검색
-        </button>
-        {/*<div>{this.state.place}</div> */}
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            placeholder="목적지를 검색하세요"
+            value={place}
+            onChange={this.handleChange}
+          />
+          <button id="searchMain" type="submit" onClick={appClick}>
+            검색
+          </button>
+        </form>
+        {/* <CafeSearch place={this.state.place}/> */}
+      </div>
     );
   }
 }

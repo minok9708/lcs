@@ -3,6 +3,10 @@ import "./CafeSearch.css";
 import Search from "./Components/Search.js";
 
 class CafeSearch extends React.Component {
+  handleCreate = (place) => {
+    console.log(place);
+  };
+
   render() {
     return (
       <div>
@@ -11,6 +15,11 @@ class CafeSearch extends React.Component {
             <Search onCreate={this.handleCreate} />
           </center>
         </div>
+
+        <div>
+          <h4>"{/* {this.handleCreate(this.place) */}"에 대한 검색 결과입니다.</h4>
+        </div>
+        {/* {console.log(test)} */}
 
         <div>
           <CafeList />
@@ -22,11 +31,7 @@ class CafeSearch extends React.Component {
 
 class CafeList extends React.Component {
   render() {
-    return (
-      <div>
-        <h4>"{}에 대한 검색 결과입니다."</h4>
-      </div>
-    );
+    return <div></div>;
   }
 }
 
