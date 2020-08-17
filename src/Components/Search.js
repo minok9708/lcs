@@ -14,11 +14,12 @@ class Search extends React.Component {
     });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = (e) => {//전송할 때
     //페이지 리로딩 방지
     e.preventDefault();
     //상태값을 oncreate를 통하여 부모에게 전달
-    this.props.onCreate(this.state);
+    /* this.props.onCreate(this.state); --> DB로 키워드 보내야함*/
+    console.log(this.props);
     //상태 초기화
     this.setState({
       place: "",
