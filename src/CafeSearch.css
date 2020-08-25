@@ -1,15 +1,9 @@
-#bar {
-  width: 100%;
-  background-color: gray;
-  padding: 2%;
-}
-
 input[type="submit"] {
   width: 6%;
   border-radius: 20px;
   border: none;
 }
-h4{
+h4 {
   margin-left: 20%;
   font-size: 0.8rem;
 }

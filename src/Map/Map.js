@@ -1,74 +1,26 @@
-import React, {Component, Fragment} from "react";
-import {NaverMap, Marker, RenderAfterNavermapsLoaded} from "react-naver-maps"; // 패키지 불러오기
-import Search from "../Components/Search";
+import React, { Fragment } from "react";
+import { NaverMap, Marker } from "react-naver-maps"; // 패키지 불러오기
 import "./Map.css";
-import {findAllByPlaceholderText, render} from "@testing-library/react";
-import {_possibleConstructorReturn} from "react-naver-maps/dist/hocs-018c38ad";
+import { _possibleConstructorReturn } from "react-naver-maps/dist/hocs-018c38ad";
 
 class Map extends React.Component {
-  // map = new naver.maps.Map('mapDiv', {option});
-  constructor(props) {
+  constructor(props){
     super(props);
-    const navermaps = window.naver.maps;
-
-    this.state = {
-      map: navermaps,
-      input_latlng: "",
-      zoomControl: true,
-      zoom: 2,
-      mapTypeId: "normal",
-      center: navermaps.LatLng(36.480058, 127.289039), // 126.9861108, 37.4983439 초기 지도 위치
-
-      zoomControlOptions: {
-        center: new navermaps.LatLng(36.480058, 127.289039), //36.4203004, 128.317960
-        position: navermaps.Position.TOP_LEFT,
-        style: navermaps.ZoomControlStyle.SMALL,
-      },
-
-      scaleControl: true,
-      draggable: true,
-      scrollWheel: true,
-      scaleControl: false,
-      logoControl: false,
-      mapDataControl: false,
-      zoomControl: true,
-      minZoom: 6,
-    };
+    this.state={
+    lat:0,
+    lng:0,
   }
-  handleClick = (e) => {
-    console.log("e.coord >>>", e.coord);
-    this.setState({
-      input_latlng: e.coord + "",
-    });
-  };
-
-  handleToZoomLevelOne = (e) => {
-    this.setState({
-      zoom: 10,
-    });
-  };
+}
 
   render() {
     return (
       <Fragment>
-        {place()}
         {getLocation()}
         {NaverMapAPI()}
-        <view>
-         {/*  <div>{<Search />}</div> */}
-        </view>
       </Fragment>
     );
   }
 }
-
-function place(props) {
-  return console.log("안녕");
-}
-
-place.defaultProps = {
-  place: "목적지 없음",
-};
 
 function NaverMapAPI() {
   const navermaps = window.naver.maps;
@@ -79,18 +31,31 @@ function NaverMapAPI() {
         width: "100%", // 네이버지도 가로 길이
         height: "922px", // 네이버지도 세로 길이
       }}
-      defaultCenter={{lat: 37.9036062, lng: 127.0385797}} // 지도 초기 위치
+      map={navermaps}
+      input_latlng={getLocation.LatLng}
+      zoom={2}
+      defaultCenter={{ lat: /* getLocation.lat */37.554722, lng: /* getLocation.lng */126.970833}} // 지도 초기 위치
       defaultZoom={13} // 지도 초기 확대 배율
+      zoomControl={true}
+      scaleControl={true}
+      draggable={true}
+      scrollWheel={true}
+      scaleControl={false}
+      logoControl={false}
+      mapDataControl={false}
+      zoomControl={true}
+      minZoom={6}
     >
       <Marker
         id="marker1"
         key={Marker.id}
         position={new navermaps.LatLng(37.554722, 126.970833)}
-        animation={2} /* 마커 애니메이션설정 */
+        animation={0} /* 마커 애니메이션설정 */
         onClick={() => {
           alert("여기는 N서울타워입니다.");
         }}
       ></Marker>
+
       <Marker
         id="marker2"
         key={Marker.id}
@@ -100,6 +65,7 @@ function NaverMapAPI() {
           alert("여기는 중랑역입니다.");
         }}
       ></Marker>
+
       <Marker
         id="marker3"
         key={Marker.id}
@@ -109,6 +75,7 @@ function NaverMapAPI() {
           alert("신한대학교입니다.");
         }}
       ></Marker>
+
       <Marker
         id="marker4"
         key={Marker.id}
@@ -116,6 +83,16 @@ function NaverMapAPI() {
         animation={0} /* 마커 애니메이션설정 (0.1.2)*/
         onClick={() => {
           alert("영수오빠네입니다");
+        }}
+      ></Marker>
+
+      <Marker
+        id="marker5"
+        key={Marker.id}
+        position={new navermaps.LatLng(37.5874336, 127.07221989999998)}
+        animation={0} /* 마커 애니메이션설정 (0.1.2)*/
+        onClick={() => {
+          alert("민옥이네입니다.");
         }}
       ></Marker>
     </NaverMap>
@@ -127,19 +104,27 @@ getCurrentPosition:현재위치 정보 가져옴
 latitude:위도
 longitude:경도 
 */
-function getLocation() {
+function getLocation(LatLng) {
+  const navermaps = window.naver.maps;
   if (navigator.geolocation) {
-    // GPS를 지원하는 경우
+    // GPS를 지원하는 경f우
     navigator.geolocation.getCurrentPosition(
       function (position) {
-        alert(position.coords.latitude + " " + position.coords.longitude);
-        console.log(
-          "위도: " +
-            position.coords.latitude +
-            " " +
-            "경도: " +
-            position.coords.longitude
-        ); /* 알림으로 나타냄 */
+        let lat = position.coords.latitude,
+          lng = position.coords.longitude;
+          const LatLng ={lat,lng};
+
+        /* let locPosition = new navermaps.LatLng(lat,lng); */
+        console.log(LatLng);
+
+        NaverMapAPI(<NaverMap defaultCenter={LatLng}/>)
+        
+        /* displayMarker(locPosition);
+        console.log(locPosition); */
+        
+        alert(lat + " " + lng);
+      
+        return LatLng.lat + LatLng.lng
       },
       function (error) {
         //위치값 찾기 에러났을때
@@ -157,4 +142,28 @@ function getLocation() {
     alert("GPS를 지원하지 않습니다");
   }
 }
+/* 
+function displayMarker(locPosition,message){
+  const navermaps = window.naver.maps;
+
+  //마커 생성
+  let marker =new navermaps.Marker({
+    map:navermaps,
+    position:locPosition
+  });
+  
+  let iwContent= message,
+  iwRemoveable= true;
+  
+  var infowindow =new navermaps.infowindow({
+    content:iwContent,
+    removable:iwRemoveable
+  });
+  
+infowindow.open(navermaps,marker);
+
+  NaverMap.defaultCenter(locPosition); 
+}
+ */
+
 export default Map;

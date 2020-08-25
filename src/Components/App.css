@@ -2,17 +2,8 @@
   text-align: center;
 }
 
-#App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
 #curLocBtn {
+  /* "현재위치로 검색" 버튼*/
   width: 20%;
   margin-top: 15%;
   border-radius: 50%;
@@ -20,25 +11,20 @@
   background-color: #e4e4e4;
 }
 
-.App-link {
-  color: black;
-  font-size: 0.8rem;
-  font-weight: bolder;
-  text-decoration: none;
-}
-
 input[type="search"] {
+  /* 검색 바 */
   width: 60%;
   padding: 1%;
   border-top: none;
   border-right: none;
   border-left: none;
   border-width: 3px;
- /*  margin-top: 10%;  */
+  /*  margin-top: 10%;  */
   outline: none;
 }
 
 #searchMain {
+  /* 검색 버튼  */
   width: 6%;
   padding: 1%;
   border-radius: 30%;
@@ -46,5 +32,16 @@ input[type="search"] {
 }
 
 #Login {
+  /* 로그인 버튼 */
   margin-top: 5%;
+}
+
+h4 {
+  text-align: left;
+}
+  
+#bar {         /* search화면 헤더 배경 */
+  width: 100%;
+  background-color: gray;
+  padding: 2%;
 }

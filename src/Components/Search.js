@@ -6,17 +6,17 @@ import CafeSearch from "../CafeSearch";
 class Search extends React.Component {
   /* 메인페이지 검색기능 */
   state = {
-    place: "",
+    keyword: "",
   };
 
   handleChange = (e) => {
     this.setState({
-      place: e.target.value,
+      keyword: e.target.value,
     });
   };
 
   appClick = () => {
-    console.log("키워드:" + this.state.place);
+    console.log("키워드:" + this.state.keyword);
   };
 
   handleSubmit = (e) => {
@@ -31,23 +31,36 @@ class Search extends React.Component {
   };
 
   render() {
-    const {place} = this.state;
+    const {keyword} = this.state;
     const {appClick} = this;
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="목적지를 검색하세요"
-            value={place}
-            onChange={this.handleChange}
-          />
-          <button id="searchMain" type="submit" onClick={appClick}>
-            검색
-          </button>
-        </form>
-        {/* <CafeSearch place={this.state.place}/> */}
+        <div>
+          <form id="bar" /* 서버로 keyword 보내기 */
+            action="http://cafeaddy.xyz:8080/api/name"
+            method="post"
+            /* onSubmit={this.handleSubmit} */
+          >
+            <input
+              type="text"
+              placeholder="목적지를 검색하세요"
+              value={keyword}
+              onChange={this.handleChange}
+              name="name"
+            />
+            <input
+              id="searchMain"
+              type="submit"
+              value="검색"
+              onClick={appClick}
+            />
+          </form>
+        </div>
+
+        <div>
+          <h4>"{keyword}"에 대한 검색 결과입니다.</h4>
+        </div>
       </div>
     );
   }
