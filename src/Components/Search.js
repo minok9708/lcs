@@ -37,7 +37,8 @@ class Search extends React.Component {
     return (
       <div>
         <div>
-          <form id="bar" /* 서버로 keyword 보내기 */
+          <form
+            id="bar" /* 서버로 keyword 보내기 */
             action="http://cafeaddy.xyz:8080/api/name"
             method="post"
             /* onSubmit={this.handleSubmit} */

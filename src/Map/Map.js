@@ -1,6 +1,18 @@
 import React, {Fragment} from "react";
-import {NaverMap, Marker} from "react-naver-maps"; // 패키지 불러오기
+import {NaverMap, Marker, Rectangle} from "react-naver-maps"; // 패키지 불러오기
 import "./Map.css";
+import {withNavermaps} from "react-naver-maps/hocs";
+import {markerdata} from "../markerdata.js";
+
+const Rect = (props) => (
+  <Rectangle
+    strokeOpacity={0}
+    strokeWeight={0}
+    fillOpacity={0.2}
+    fillColor={"#f00"}
+    {...props}
+  />
+);
 
 class Map extends React.Component {
   constructor(props) {
@@ -14,7 +26,7 @@ class Map extends React.Component {
       currentLng: "",
       currentLatLng: "",
       zoomControl: true,
-      zoom: 2,
+      /*  zoom: 10, */
       mapTypeId: "normal",
       zoomControlOptions: {
         position: navermaps.Position.TOP_LEFT,
@@ -23,8 +35,11 @@ class Map extends React.Component {
       scaleControl: true,
       draggable: true,
       scrollWheel: true,
-      bounds: null,
+      bounds: null /* navermaps.LatLngBounds(), */,
+      rect: null,
     };
+
+    this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
   }
 
   handleClick = (e) => {
@@ -40,9 +55,24 @@ class Map extends React.Component {
     });
   };
 
+  changeBounds(bounds) {
+    this.setState({bounds});
+
+    if (this.rectTimeout) clearTimeout(this.rectTimeout);
+    this.rectTimeout = setTimeout(() => {
+      this.setState({rect: <Rect bounds={this.state.bounds} />});
+    },);
+  }
+
+  handleBoundsChanged(bounds) {
+    this.changeBounds(bounds);
+  }
+
   componentDidMount() {
     const navermaps = window.naver.maps;
 
+    this.changeBounds(this.mapRef.getBounds());
+    
     navigator.geolocation.getCurrentPosition(
       (position) => {
         console.log("Latitude is :", position.coords.latitude);
@@ -59,6 +89,16 @@ class Map extends React.Component {
           currentLng: lng,
           currentLatLng: locPosition,
         });
+
+        var bounds = new navermaps.LatLngBounds(),
+          southWest = bounds.getSW(),
+          northEast = bounds.getNE(),
+          lngSpan = northEast.lng() - southWest.lng(),
+          latSpan = northEast.lat() - southWest.lat();
+
+        // map이 생성될 때의 bounds를 알기 위해 method를 이용합니다.
+
+        console.log(bounds)
       },
       (error) => {
         console.error("Error Code = " + error.code + " - " + error.message);
@@ -76,6 +116,9 @@ class Map extends React.Component {
     return (
       <Fragment>
         <NaverMap
+          naverRef={(ref) => {
+            this.mapRef = ref;
+          }}
           id="map"
           style={{width: "100%", height: "100vh"}}
           onClick={this.handleClick}
@@ -84,7 +127,11 @@ class Map extends React.Component {
             lng: this.state.currentLng,
           }} // 지도 초기 위치
           bounds={this.state.bounds}
+          onBoundsChanged={this.handleBoundsChanged}
         >
+          {this.state.rect}
+          {/* {console.log(this.state.rect)} */}
+
           <Marker
             id="map"
             position={{
@@ -97,7 +144,6 @@ class Map extends React.Component {
               );
             }}
           ></Marker>
-          
         </NaverMap>
       </Fragment>
     );

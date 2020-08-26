@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./CafeSearch.css";
 import Search from "./Components/Search.js";
-import cafe_list from "./cafe_list.json";
+import {markerdata} from "./markerdata.js";
 
 class CafeSearch extends React.Component {
   constructor(props) {
@@ -11,7 +11,8 @@ class CafeSearch extends React.Component {
     };
   }
 
-  componentWillMount() {   /* 링크 수정해야함 */
+  componentWillMount() {
+    /* 링크 수정해야함 */
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((res) => res.json())
       .then((data) =>
