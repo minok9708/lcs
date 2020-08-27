@@ -61,7 +61,7 @@ class Map extends React.Component {
     if (this.rectTimeout) clearTimeout(this.rectTimeout);
     this.rectTimeout = setTimeout(() => {
       this.setState({rect: <Rect bounds={this.state.bounds} />});
-    },);
+    });
   }
 
   handleBoundsChanged(bounds) {
@@ -72,44 +72,49 @@ class Map extends React.Component {
     const navermaps = window.naver.maps;
 
     this.changeBounds(this.mapRef.getBounds());
-    
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log("Latitude is :", position.coords.latitude);
-        console.log("Longitude is :", position.coords.longitude);
-        console.log(position);
 
-        let lat = position.coords.latitude,
-          lng = position.coords.longitude;
+    if (navigator.geolocation) {
+      alert("Geolocation API 사용 가능");
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Latitude is :", position.coords.latitude);
+          console.log("Longitude is :", position.coords.longitude);
+          console.log(position);
 
-        let locPosition = new navermaps.LatLng(lat, lng);
+          let lat = position.coords.latitude,
+            lng = position.coords.longitude;
 
-        this.setState({
-          currentLat: lat,
-          currentLng: lng,
-          currentLatLng: locPosition,
-        });
+          let locPosition = new navermaps.LatLng(lat, lng);
 
-        var bounds = new navermaps.LatLngBounds(),
-          southWest = bounds.getSW(),
-          northEast = bounds.getNE(),
-          lngSpan = northEast.lng() - southWest.lng(),
-          latSpan = northEast.lat() - southWest.lat();
+          this.setState({
+            currentLat: lat,
+            currentLng: lng,
+            currentLatLng: locPosition,
+          });
 
-        // map이 생성될 때의 bounds를 알기 위해 method를 이용합니다.
+          var bounds = new navermaps.LatLngBounds(),
+            southWest = bounds.getSW(),
+            northEast = bounds.getNE(),
+            lngSpan = northEast.lng() - southWest.lng(),
+            latSpan = northEast.lat() - southWest.lat();
 
-        console.log(bounds)
-      },
-      (error) => {
-        console.error("Error Code = " + error.code + " - " + error.message);
-      },
-      {
-        //옵션
-        enableHighAccuracy: true, //베터리를 소모해서 더 정확한 위치를 찾음
-        maximumAge: 0, //한번찾은 위치정보를 해당 초만큼 캐싱
-        timeout: Infinity, //주어진 초에 찾지못하면 에러발생
-      }
-    );
+          // map이 생성될 때의 bounds를 알기 위해 method를 이용합니다.
+
+          console.log(bounds);
+        },
+        (error) => {
+          console.error("Error Code = " + error.code + " - " + error.message);
+        },
+        {
+          //옵션
+          enableHighAccuracy: true, //베터리를 소모해서 더 정확한 위치를 찾음
+          maximumAge: 0, //한번찾은 위치정보를 해당 초만큼 캐싱
+          timeout: Infinity, //주어진 초에 찾지못하면 에러발생
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
   }
 
   render() {
