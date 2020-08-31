@@ -14,7 +14,7 @@ class App extends React.Component {
       <center>
         <div className="App">
           <div>
-           {/*  <img src={"./coffeLogo.PNG"} className="App-logo" alt="logo"/> */}
+           {/*  <img src={"https://cdn.icon-icons.com/icons2/591/PNG/512/barista-icons_coffee-shop-sign_icon-icons.com_55423.png"} className="App-logo" alt="logo" /> */}
             <h1> 카페어디</h1>
             <h6>주변카페 자리를 확인해보세요~</h6>
           </div>

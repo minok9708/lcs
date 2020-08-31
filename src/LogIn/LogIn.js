@@ -8,18 +8,24 @@ class LogIn extends React.Component {
     pw: "",
   };
 
-  handleIdChange = (e) => {
+  /* input value 변경 ==> onChange */
+  appChange = (e) => {
     /* id 핸들 */
     this.setState({
-      id: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
-  handlePwChange = (f) => {
-    /* 비밀번호 핸들 */
-    this.setState({
-      pw: f.target.Value,
-    });
+  /* 로그인 버튼 클릭 ==> onClick */
+  appClick = () => {
+    console.log("아이디:" + this.state.id + "비밀번호:" + this.state.pw);
+  };
+
+  /* 엔터키로 사용했을 때 */
+  appKeyPress = (e) => {
+    if (e.key === "Enter") {
+      this.appClick();
+    }
   };
 
   handleSubmit = (e) => {
@@ -35,44 +41,51 @@ class LogIn extends React.Component {
   };
 
   render() {
+    const {id, pw} = this.state;
+    let {appClick, appKeyPress} = this;
+
     return (
       <div id="content">
-        <form>
+        <form
+        /* /id="login" */
+          action=""
+          method="POST"
+        >
           <div id="id">
             <input
               type="text"
-              id="id"
+              name="id"
               placeholder="아이디를 입력하세요."
-              value={this.state.id}
-              onChange={this.handleIdChange}
-            ></input>
+              value={id}
+              onChange={this.appChange}
+            />
           </div>
-          <div>{console.log(this.state.id)}</div>
 
           <div id="pw">
             <input
               type="password"
-              id="pw"
+              name="pw"
               placeholder="비밀번호를 입력하세요."
-              Value={this.state.pw}
-              onChange={this.handlePwChange}
+              Value={pw}
+              onChange={this.appChange}
+              onKeyPress={appKeyPress}
             />
           </div>
-          <div>{console.log(this.state.pw)}</div>
 
           <div id="middle">
-            <button id="login" onSubmit={this.handleSubmit}>
+            <button id="login"/*  onSubmit={this.handleSubmit}  */onClick={appClick}>
               로그인
             </button>
           </div>
-          {/*console.log("아이디:", this.state.id, "비밀번호:", this.state.pw)*/}
+          
           <hr style={{marginBottom: "2%", width: "26%"}} />
+          
           <div id="Btn">
             <input type="submit" id="idSearchBtn" Value="아이디 찾기" />
 
             <input type="submit" id="pwSearchBtn" Value="비밀번호 찾기" />
 
-              <input type="submit" id="signUpBtn" Value="회원가입" />
+            <input type="submit" id="signUpBtn" Value="회원가입" />
           </div>
         </form>
       </div>

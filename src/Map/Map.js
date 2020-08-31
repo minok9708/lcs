@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 import {NaverMap, Marker, Rectangle} from "react-naver-maps"; // 패키지 불러오기
 import "./Map.css";
-import {withNavermaps} from "react-naver-maps/hocs";
 import {markerdata} from "../markerdata.js";
 
 const Rect = (props) => (
@@ -35,7 +34,7 @@ class Map extends React.Component {
       scaleControl: true,
       draggable: true,
       scrollWheel: true,
-      bounds: null /* navermaps.LatLngBounds(), */,
+      bounds: null,
       rect: null,
     };
 
@@ -58,6 +57,8 @@ class Map extends React.Component {
   changeBounds(bounds) {
     this.setState({bounds});
 
+    /* console.log(bounds) */
+
     if (this.rectTimeout) clearTimeout(this.rectTimeout);
     this.rectTimeout = setTimeout(() => {
       this.setState({rect: <Rect bounds={this.state.bounds} />});
@@ -66,6 +67,7 @@ class Map extends React.Component {
 
   handleBoundsChanged(bounds) {
     this.changeBounds(bounds);
+    console.log(bounds._min);
   }
 
   componentDidMount() {
@@ -75,6 +77,7 @@ class Map extends React.Component {
 
     if (navigator.geolocation) {
       alert("Geolocation API 사용 가능");
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
           console.log("Latitude is :", position.coords.latitude);
@@ -92,16 +95,11 @@ class Map extends React.Component {
             currentLatLng: locPosition,
           });
 
-          var bounds = new navermaps.LatLngBounds(),
-            southWest = bounds.getSW(),
-            northEast = bounds.getNE(),
-            lngSpan = northEast.lng() - southWest.lng(),
-            latSpan = northEast.lat() - southWest.lat();
-
-          // map이 생성될 때의 bounds를 알기 위해 method를 이용합니다.
+          let bounds = new navermaps.LatLngBounds();
 
           console.log(bounds);
         },
+
         (error) => {
           console.error("Error Code = " + error.code + " - " + error.message);
         },
@@ -132,11 +130,12 @@ class Map extends React.Component {
             lng: this.state.currentLng,
           }} // 지도 초기 위치
           bounds={this.state.bounds}
-          onBoundsChanged={this.handleBoundsChanged}
+          onBoundsChanged={
+            this.handleBoundsChanged
+          } /* 지도가 움직이는걸 느낄 때 */
         >
-          {this.state.rect}
+          {this.state.rect} {/* bound 사각형 생성 */}
           {/* {console.log(this.state.rect)} */}
-
           <Marker
             id="map"
             position={{
@@ -149,6 +148,28 @@ class Map extends React.Component {
               );
             }}
           ></Marker>
+          {/* 마커 리스트 가지고 동적으로 반복하여 생성  */}
+          {markerdata.map((marker, index) => {
+            return (
+              <Marker
+                name={marker.name}
+                key={index}
+                position={{
+                  lat: marker.lat,
+                  lng: marker.lng,
+                }}
+                title={marker.name}
+                animation={0}
+                icon={{
+                  url: "http://maps.google.com/mapfiles/ms/icons/red.png",
+                }}
+                // http://maps.google.com/mapfiles/ms/icons/red.png
+                onClick={() => {
+                  alert(`여기는 ${marker.name}입니다.`);
+                }}
+              />
+            );
+          })}
         </NaverMap>
       </Fragment>
     );
