@@ -47,8 +47,8 @@ class LogIn extends React.Component {
     return (
       <div id="content">
         <form
-        /* /id="login" */
-          action=""
+          id="login"
+         /*  action="http://cafeaddy.xyz:8080/api/name" */
           method="POST"
         >
           <div id="id">
@@ -73,13 +73,16 @@ class LogIn extends React.Component {
           </div>
 
           <div id="middle">
-            <button id="login"/*  onSubmit={this.handleSubmit}  */onClick={appClick}>
+            <button
+              id="login"
+              /*  onSubmit={this.handleSubmit}  */ onClick={appClick}
+            >
               로그인
             </button>
           </div>
-          
+
           <hr style={{marginBottom: "2%", width: "26%"}} />
-          
+
           <div id="Btn">
             <input type="submit" id="idSearchBtn" Value="아이디 찾기" />
 

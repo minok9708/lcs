@@ -5,6 +5,7 @@ input[type="search"] {
   border-left: none;
   border-width: 0.8px;
   outline: none;
+  visibility: inherit;
 }
 
 input[type="submit"] {

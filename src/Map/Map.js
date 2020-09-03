@@ -2,6 +2,8 @@ import React, {Fragment} from "react";
 import {NaverMap, Marker, Rectangle} from "react-naver-maps"; // 패키지 불러오기
 import "./Map.css";
 import {markerdata} from "../markerdata.js";
+import axios from "axios";
+import Search from "../Components/Search.js";
 
 const Rect = (props) => (
   <Rectangle
@@ -9,6 +11,7 @@ const Rect = (props) => (
     strokeWeight={0}
     fillOpacity={0.2}
     fillColor={"#f00"}
+    /*   bounds = {window.naver.maps.getBounds()}/* 지도의 bounds와 동일한 크기의 사각형 그림  */
     {...props}
   />
 );
@@ -36,6 +39,10 @@ class Map extends React.Component {
       scrollWheel: true,
       bounds: null,
       rect: null,
+      swLatitude: "",
+      swLongitude: "",
+      neLatitude: "",
+      neLongitude: "",
     };
 
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
@@ -53,28 +60,101 @@ class Map extends React.Component {
       zoom: 10,
     });
   };
-
   changeBounds(bounds) {
     this.setState({bounds});
 
-    /* console.log(bounds) */
+    // 현재 영역정보의 남서쪽 정보를 얻어옴
+    let swLatlng = bounds.getSW();
 
+    // 현재 영역정보의 북동쪽 정보를 얻어옴
+    let neLatlng = bounds.getNE();
+
+    // 요기 if 문안에 통신 코드 작성하게 되면 지정한 초만큼 기다렸다가 통신
     if (this.rectTimeout) clearTimeout(this.rectTimeout);
     this.rectTimeout = setTimeout(() => {
-      this.setState({rect: <Rect bounds={this.state.bounds} />});
-    });
+      // 색깔
+      //this.setState({ rect: <Rect bounds={this.state.bounds} /> });
+      console.log(bounds.getSW());
+      console.log(bounds.getNE());
+
+      // const test = bounds.getSW();
+      // // json 객체인지 확인
+      // console.log(IsJsonString(test));
+      // console.log(JSON.stringify(test));
+      // console.log(IsJsonString(test));
+      // console.log(test);
+
+      let swLatitude = swLatlng._lat;
+      let swLongitude = swLatlng._lng;
+      let neLatitude = neLatlng._lat;
+      let neLongitude = neLatlng._lng;
+
+      this.setState({
+        swLatitude: swLatlng._lat,
+        swLongitude: swLatlng._lng,
+        neLatitude: neLatlng._lat,
+        neLongitude: neLatlng._lng,
+      });
+
+      let message = `남서쪽 위도, 경도는 ${swLatitude},${swLongitude}\n
+      북동쪽 위도, 경도는 ${neLatitude},${neLongitude}`;
+      console.log(message);
+
+      // let data = {xPoint: 127.067628, yPoint: 37.5969417};
+      // console.log(data);
+
+      let mapUrl = "http://cafeaddy.xyz:8080/api/datas";
+
+      let headers = new Headers();
+
+      headers.append("Access-Control-Allow-Origin", "*");
+      // headers.append("Content-Type", "application/json;");
+      var params = new URLSearchParams();
+
+      params.append("swLatitude", this.state.swLatitude);
+      params.append("swLongitude", this.state.swLongitude);
+      params.append("neLatitude", this.state.neLatitude);
+      params.append("neLongitude", this.state.neLongitude);
+      console.log(
+        this.state.swLatitude,
+        swLatlng._lng,
+        neLatlng._lat,
+        neLatlng._lng
+      );
+
+      axios({
+        method: "post",
+        headers: {"Content-Type": `application/json`},
+        url: mapUrl,
+        data: {
+          swLatitude: this.state.swLatitude,
+          swLongitude: this.state.swLongitude,
+          neLatitude: this.state.neLatitude,
+          neLongitude: this.state.neLongitude,
+        },
+      })
+        .then(function (response) {
+          /* 정상적으로 데이터를 받았을경우 */
+          console.log(response);
+        })
+        .catch((error) => {
+          /* 에러 catch */
+          console.log("error:", error.response);
+        });
+    }, 500);
   }
 
   handleBoundsChanged(bounds) {
     this.changeBounds(bounds);
-    console.log(bounds._min);
   }
 
   componentDidMount() {
     const navermaps = window.naver.maps;
 
+    /* 맵 생성시 초기 bounds 알기위해 레퍼런스에 직접 접근하기 위함 */
     this.changeBounds(this.mapRef.getBounds());
 
+    /* GPS 사용 가능 */
     if (navigator.geolocation) {
       alert("Geolocation API 사용 가능");
 
@@ -89,15 +169,20 @@ class Map extends React.Component {
 
           let locPosition = new navermaps.LatLng(lat, lng);
 
+          /* 현재 위치에 대한 정보를 setState를 토앻서 state에 저장 */
           this.setState({
             currentLat: lat,
             currentLng: lng,
             currentLatLng: locPosition,
+            loding: false,
           });
 
-          let bounds = new navermaps.LatLngBounds();
-
-          console.log(bounds);
+          this.mapRef.panTo(
+            new navermaps.LatLng(
+              position.coords.latitude,
+              position.coords.longitude
+            )
+          );
         },
 
         (error) => {
@@ -124,18 +209,28 @@ class Map extends React.Component {
           }}
           id="map"
           style={{width: "100%", height: "100vh"}}
-          onClick={this.handleClick}
-          center={{
+          onClick={this.handleClick} // 맵 클릭했을때 이벤트
+          /*  center={{
             lat: this.state.currentLat,
             lng: this.state.currentLng,
-          }} // 지도 초기 위치
+          }}  */
           bounds={this.state.bounds}
           onBoundsChanged={
-            this.handleBoundsChanged
-          } /* 지도가 움직이는걸 느낄 때 */
+            this.handleBoundsChanged /* 지도가 움직이는걸 느낄 때 */
+          }
+          defaultCenter={{
+            lat: 37.5666805, // 현재위치 Lat
+            lng: 126.9784147, // 현재위치 Lng
+            // new map.LatLng(currentLat, currentLng)
+          }}
         >
+          <div>
+            <form>
+              <input type="search" />
+              <button id="searchMain">검색</button>
+            </form>
+          </div>
           {this.state.rect} {/* bound 사각형 생성 */}
-          {/* {console.log(this.state.rect)} */}
           <Marker
             id="map"
             position={{
