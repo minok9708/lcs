@@ -21,6 +21,8 @@ input[type="search"] {
   border-width: 3px;
   /*  margin-top: 10%;  */
   outline: none;
+  position: relative;
+  z-index: 1;
 }
 
 #searchMain {
@@ -29,6 +31,7 @@ input[type="search"] {
   padding: 1%;
   border-radius: 30%;
   margin-left: 1%;
+
 }
 
 #Login {
@@ -40,11 +43,11 @@ h4 {
   text-align: left;
 }
   
-#bar {         /* search화면 헤더 배경 */
+/* #bar {         /* search화면 헤더 배경 
   width: 100%;
   background-color: gray;
   padding: 2%;
-}
+} */
 
 /* img{
   width: 18%;

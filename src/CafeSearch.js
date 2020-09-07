@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "./CafeSearch.css";
 import Search from "./Components/Search.js";
 import {markerdata} from "./markerdata.js";
+import Axios from 'axios';
 
 class CafeSearch extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class CafeSearch extends React.Component {
   render() {
     const {posts} = this.state;
 
+    /* 검색 결과 리스트 */
     const postsLsit = posts.map((posts) => (
       <div key={posts.id} id={posts.id}>
         <h4>{posts.title}</h4>

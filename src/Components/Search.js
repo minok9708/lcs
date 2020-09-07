@@ -33,13 +33,19 @@ class Search extends React.Component {
   render() {
     const {keyword} = this.state;
     const {appClick} = this;
+    const style={
+      width: '100%',
+      backgroundcolor: 'gray',
+      padding: '2%'
+    }
 
     return (
       <div>
         <div>
           <form
             id="bar" /* 서버로 keyword 보내기 */
-            /* action="http://cafeaddy.xyz:8080/api/name" */
+            style={style}
+            action="http://cafeaddy.xyz:8080/api/name" 
             method="post"
              /* onSubmit={this.handleSubmit} */
           >

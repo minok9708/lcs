@@ -18,6 +18,7 @@ ReactDOM.render(
           <Route path="/map" component={Map}></Route>
           <Route path="/login" component={LogIn}></Route>
           <Route path="/cafesearch" component={CafeSearch}></Route>
+          {/* <Route path="/상세페이지" component={상세페이지}></Route> */}
         </React.StrictMode>
       </RenderAfterNavermapsLoaded>
     </Switch>

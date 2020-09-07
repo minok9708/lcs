@@ -4,17 +4,19 @@ import "./Map.css";
 import {markerdata} from "../markerdata.js";
 import axios from "axios";
 import Search from "../Components/Search.js";
+/* import infoWindow from "../infoWindow"; */
 
+/* 경계 가시화 (빨간색 사각형)
 const Rect = (props) => (
   <Rectangle
     strokeOpacity={0}
     strokeWeight={0}
     fillOpacity={0.2}
     fillColor={"#f00"}
-    /*   bounds = {window.naver.maps.getBounds()}/* 지도의 bounds와 동일한 크기의 사각형 그림  */
+    /*   bounds = {window.naver.maps.getBounds()}/* 지도의 bounds와 동일한 크기의 사각형 그림  
     {...props}
   />
-);
+); */
 
 class Map extends React.Component {
   constructor(props) {
@@ -31,8 +33,8 @@ class Map extends React.Component {
       /*  zoom: 10, */
       mapTypeId: "normal",
       zoomControlOptions: {
-        position: navermaps.Position.TOP_LEFT,
-        style: navermaps.ZoomControlStyle.SMALL,
+        position: navermaps.Position.TOP_RIGHT,
+        style: navermaps.ZoomControlStyle.BUTTON,
       },
       scaleControl: true,
       draggable: true,
@@ -47,19 +49,26 @@ class Map extends React.Component {
 
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
   }
+  /* 클릭햇을때 정보 얻어오는것 */
 
-  handleClick = (e) => {
+  /*   handleClick = (e) => {
     console.log("e.coord >>>", e.coord);
     this.setState({
       input_latlng: e.coord + "",
     });
-  };
+  }; */
+
+  // 컴포넌트가 DOM 위에 만들어지기 전에 실행됨
+  componentWillMount() {
+    console.log("componentWillMount");
+  }
 
   handleToZoomLevelOne = (e) => {
     this.setState({
       zoom: 10,
     });
   };
+
   changeBounds(bounds) {
     this.setState({bounds});
 
@@ -72,17 +81,10 @@ class Map extends React.Component {
     // 요기 if 문안에 통신 코드 작성하게 되면 지정한 초만큼 기다렸다가 통신
     if (this.rectTimeout) clearTimeout(this.rectTimeout);
     this.rectTimeout = setTimeout(() => {
-      // 색깔
+      /* 색깔 */
       //this.setState({ rect: <Rect bounds={this.state.bounds} /> });
       console.log(bounds.getSW());
       console.log(bounds.getNE());
-
-      // const test = bounds.getSW();
-      // // json 객체인지 확인
-      // console.log(IsJsonString(test));
-      // console.log(JSON.stringify(test));
-      // console.log(IsJsonString(test));
-      // console.log(test);
 
       let swLatitude = swLatlng._lat;
       let swLongitude = swLatlng._lng;
@@ -103,7 +105,7 @@ class Map extends React.Component {
       // let data = {xPoint: 127.067628, yPoint: 37.5969417};
       // console.log(data);
 
-      let mapUrl = "http://cafeaddy.xyz:8080/api/datas";
+      let mapUrl = "http://cafeaddy.xyz:8080/api/cafes";
 
       let headers = new Headers();
 
@@ -122,7 +124,8 @@ class Map extends React.Component {
         neLatlng._lng
       );
 
-      axios({
+      /* 화면 좌표 서버로 전송 */
+      /* axios({
         method: "post",
         headers: {"Content-Type": `application/json`},
         url: mapUrl,
@@ -134,13 +137,14 @@ class Map extends React.Component {
         },
       })
         .then(function (response) {
-          /* 정상적으로 데이터를 받았을경우 */
+          /* 정상적으로 데이터를 받았을경우 
           console.log(response);
         })
         .catch((error) => {
-          /* 에러 catch */
+          /* 에러 catch 
           console.log("error:", error.response);
-        });
+        }); */
+
     }, 500);
   }
 
@@ -148,11 +152,17 @@ class Map extends React.Component {
     this.changeBounds(bounds);
   }
 
+  // 컴포넌트가 만들어지고 첫 렌더링을 다 마친 후 실행되는 메소드입니다.
+  // 이 안에서 다른 JavaScript 프레임워크를 연동하거나,
+  // setTimeout, setInterval 및 AJAX 처리 등을 넣습니다
   componentDidMount() {
     const navermaps = window.naver.maps;
 
+
+
     /* 맵 생성시 초기 bounds 알기위해 레퍼런스에 직접 접근하기 위함 */
     this.changeBounds(this.mapRef.getBounds());
+    
 
     /* GPS 사용 가능 */
     if (navigator.geolocation) {
@@ -169,7 +179,7 @@ class Map extends React.Component {
 
           let locPosition = new navermaps.LatLng(lat, lng);
 
-          /* 현재 위치에 대한 정보를 setState를 토앻서 state에 저장 */
+          /* 현재 위치에 대한 정보를 setState를 통해서 state에 저장 */
           this.setState({
             currentLat: lat,
             currentLng: lng,
@@ -177,6 +187,7 @@ class Map extends React.Component {
             loding: false,
           });
 
+          // 현재위치를 찾은 후 그 위치로 화면 전환
           this.mapRef.panTo(
             new navermaps.LatLng(
               position.coords.latitude,
@@ -195,25 +206,24 @@ class Map extends React.Component {
           timeout: Infinity, //주어진 초에 찾지못하면 에러발생
         }
       );
+      // 현재 위치 권한 얻어오기 불가할때
     } else {
       alert("Geolocation is not supported by this browser.");
     }
   }
 
   render() {
+    const {currentLat, currentLng} = this.state;
+    /* const {infoWindow} = this.state; */
     return (
       <Fragment>
         <NaverMap
           naverRef={(ref) => {
             this.mapRef = ref;
           }}
-          id="map"
+          id="navermap"
           style={{width: "100%", height: "100vh"}}
           onClick={this.handleClick} // 맵 클릭했을때 이벤트
-          /*  center={{
-            lat: this.state.currentLat,
-            lng: this.state.currentLng,
-          }}  */
           bounds={this.state.bounds}
           onBoundsChanged={
             this.handleBoundsChanged /* 지도가 움직이는걸 느낄 때 */
@@ -221,21 +231,23 @@ class Map extends React.Component {
           defaultCenter={{
             lat: 37.5666805, // 현재위치 Lat
             lng: 126.9784147, // 현재위치 Lng
-            // new map.LatLng(currentLat, currentLng)
           }}
         >
-          <div>
-            <form>
-              <input type="search" />
-              <button id="searchMain">검색</button>
-            </form>
-          </div>
-          {this.state.rect} {/* bound 사각형 생성 */}
+          
+          {/* <form className="mapSearch">
+            <input type="search" />
+            <button id="searchMain">검색</button>
+          </form>  */}
+
+          {/* <Search /> */}
+
+          {/* bound 사각형 생성 */}
+          {this.state.rect}
           <Marker
             id="map"
             position={{
-              lat: this.state.currentLat,
-              lng: this.state.currentLng,
+              lat: currentLat,
+              lng: currentLng,
             }}
             onClick={() => {
               alert(
@@ -256,11 +268,10 @@ class Map extends React.Component {
                 title={marker.name}
                 animation={0}
                 icon={{
-                  url: "http://maps.google.com/mapfiles/ms/icons/red.png",
+                  url: "https://maps.google.com/mapfiles/ms/icons/red.png",
                 }}
-                // http://maps.google.com/mapfiles/ms/icons/red.png
                 onClick={() => {
-                  alert(`여기는 ${marker.name}입니다.`);
+                  /* alert(`여기는 ${marker.name}입니다.`); */
                 }}
               />
             );
