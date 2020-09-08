@@ -22,7 +22,7 @@ class App extends React.Component {
           <div>
             <Link to="/cafesearch">
               <form>
-                <input type="search" />
+                <input type="search" id="selectMain" />
                 <button id="searchMain">검색</button>
               </form>
             </Link>

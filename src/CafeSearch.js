@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "./CafeSearch.css";
 import Search from "./Components/Search.js";
 import {markerdata} from "./markerdata.js";
-import Axios from 'axios';
+import Axios from "axios";
 
 class CafeSearch extends React.Component {
   constructor(props) {
@@ -14,17 +14,36 @@ class CafeSearch extends React.Component {
 
   componentWillMount() {
     /* 링크 수정해야함 */
-    fetch("https://jsonplaceholder.typicode.com/posts")
+    /*   fetch("http://cafeaddy.xyz:8080/api/cafes")
       .then((res) => res.json())
       .then((data) =>
         this.setState({
           posts: data,
         })
-      );
-  }
+      );  */
+/* 
+      Axios({
+        method: "get",
+        headers: {"Content-Type": `application/json`},
+        url: "http://cafeaddy.xyz:8080/api/cafes",
+      })
+        .then(function (response) {
+          /* 정상적으로 데이터를 받았을경우 
+          console.log(response);
+        })
+        .catch((error) => {
+          /* 에러 catch 
+          console.log("error:", error.response);
+        });*/
+  } 
 
   render() {
     const {posts} = this.state;
+
+    /*   Axios({
+      url: "http://cafeaddy.xyz:8080/api/cafes",
+      method: "get",
+    });  */
 
     /* 검색 결과 리스트 */
     const postsLsit = posts.map((posts) => (
@@ -40,6 +59,8 @@ class CafeSearch extends React.Component {
           <center>
             <Search onCreate={this.handleCreate} />
           </center>
+        </div>
+        <div>
         </div>
 
         <div>{postsLsit}</div>

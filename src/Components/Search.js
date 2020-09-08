@@ -23,6 +23,7 @@ class Search extends React.Component {
     //전송할 때 페이지 리로딩 방지()
     e.preventDefault();
     //상태값을 oncreate를 통하여 부모에게 전달
+
     this.props.onCreate(this.state);
     //상태 초기화
     this.setState({
@@ -33,24 +34,24 @@ class Search extends React.Component {
   render() {
     const {keyword} = this.state;
     const {appClick} = this;
-    const style={
-      width: '100%',
-      backgroundcolor: 'gray',
-      padding: '2%'
-    }
+    const style = {
+      width: "100%",
+      backgroundcolor: "gray",
+      padding: "2%",
+    };
 
     return (
-      <div>
         <div>
           <form
             id="bar" /* 서버로 keyword 보내기 */
             style={style}
-            action="http://cafeaddy.xyz:8080/api/name" 
+            action="http://cafeaddy.xyz:8080/api/name"
             method="post"
-             /* onSubmit={this.handleSubmit} */
+            /* onSubmit={this.handleSubmit} */
           >
             <input
               type="text"
+              id="selectMain"
               placeholder="목적지를 검색하세요"
               value={keyword}
               onChange={this.handleChange}
@@ -63,12 +64,11 @@ class Search extends React.Component {
               onClick={appClick}
             />
           </form>
-        </div>
+          {/* <div>
+              <h4>"{keyword}"에 대한 검색 결과입니다.</h4> 
+          </div> */}
 
-        <div>
-          <h4>"{keyword}"에 대한 검색 결과입니다.</h4>
         </div>
-      </div>
     );
   }
 }

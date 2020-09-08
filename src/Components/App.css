@@ -11,10 +11,11 @@
   background-color: #e4e4e4;
 }
 
-input[type="search"] {
-  /* 검색 바 */
-  width: 60%;
+#selectMain {
+  /* 검색창&지도 검색 바 */
+  width: 25%;
   padding: 1%;
+  z-index: 1;
   border-top: none;
   border-right: none;
   border-left: none;
@@ -22,16 +23,18 @@ input[type="search"] {
   /*  margin-top: 10%;  */
   outline: none;
   position: relative;
-  z-index: 1;
+ 
 }
 
 #searchMain {
-  /* 검색 버튼  */
-  width: 6%;
-  padding: 1%;
-  border-radius: 30%;
-  margin-left: 1%;
-
+  /* 메인페이지& 검색 창& 지도 검색 버튼 */
+  width: 8%;
+  border-radius: 20%;
+  z-index: 1;
+  position: relative;
+  padding: 0.5%;
+  margin-left: 2%;
+  border: none;
 }
 
 #Login {
@@ -42,7 +45,7 @@ input[type="search"] {
 h4 {
   text-align: left;
 }
-  
+
 /* #bar {         /* search화면 헤더 배경 
   width: 100%;
   background-color: gray;

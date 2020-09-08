@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import {NaverMap, Marker, Rectangle} from "react-naver-maps"; // 패키지 불러오기
 import "./Map.css";
+/* import "../Components/App.css"; */
 import {markerdata} from "../markerdata.js";
 import axios from "axios";
 import Search from "../Components/Search.js";
@@ -144,7 +145,6 @@ class Map extends React.Component {
           /* 에러 catch 
           console.log("error:", error.response);
         }); */
-
     }, 500);
   }
 
@@ -158,11 +158,8 @@ class Map extends React.Component {
   componentDidMount() {
     const navermaps = window.naver.maps;
 
-
-
     /* 맵 생성시 초기 bounds 알기위해 레퍼런스에 직접 접근하기 위함 */
     this.changeBounds(this.mapRef.getBounds());
-    
 
     /* GPS 사용 가능 */
     if (navigator.geolocation) {
@@ -214,7 +211,7 @@ class Map extends React.Component {
 
   render() {
     const {currentLat, currentLng} = this.state;
-    /* const {infoWindow} = this.state; */
+    const {infoWindow} = this.state;
     return (
       <Fragment>
         <NaverMap
@@ -233,13 +230,8 @@ class Map extends React.Component {
             lng: 126.9784147, // 현재위치 Lng
           }}
         >
-          
-          {/* <form className="mapSearch">
-            <input type="search" />
-            <button id="searchMain">검색</button>
-          </form>  */}
 
-          {/* <Search /> */}
+          <Search />
 
           {/* bound 사각형 생성 */}
           {this.state.rect}

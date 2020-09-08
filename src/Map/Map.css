@@ -1,20 +1,23 @@
-#navermap {
+#navermap {/* 네이버 지도 */
   z-index: 0;
   position: relative;
 }
-input[type="search"] {
-  width: 20%;
+#selectMain {
+  /* 검색창&지도 검색 바 */
+  width: 25%;
+  padding: 1%;
+  z-index: 1;
   border-top: none;
   border-right: none;
   border-left: none;
-  border-width: 0.8px;
+  border-width: 3px;
+  /*  margin-top: 10%;  */
   outline: none;
-  visibility: inherit;
-  z-index: 1;
   position: relative;
+ 
 }
 
-#searchMain {
+#searchMain {/* 검색 버튼 */
   width:6%;
   border-radius: 15%;
   z-index: 1;
