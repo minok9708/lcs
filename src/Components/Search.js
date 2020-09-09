@@ -1,3 +1,6 @@
+/* 
+검색 페이지에서 검색텍스트 input과 검색 버튼 input 에 대한 내용 
+ */
 import React from "react";
 import "./App.css";
 import {Link} from "react-router-dom";
@@ -15,8 +18,13 @@ class Search extends React.Component {
     });
   };
 
-  appClick = () => {
-    console.log("키워드:" + this.state.keyword);
+  appClick = (e) => {
+    console.log(e);
+    console.log("키워드:" + e.state.keyword);
+
+   /*  {
+      ("<div> hello </div>");
+    } */
   };
 
   handleSubmit = (e) => {
@@ -34,41 +42,35 @@ class Search extends React.Component {
   render() {
     const {keyword} = this.state;
     const {appClick} = this;
-    const style = {
-      width: "100%",
-      backgroundcolor: "gray",
-      padding: "2%",
-    };
 
     return (
-        <div>
-          <form
-            id="bar" /* 서버로 keyword 보내기 */
-            style={style}
-            action="http://cafeaddy.xyz:8080/api/name"
-            method="post"
-            /* onSubmit={this.handleSubmit} */
-          >
-            <input
-              type="text"
-              id="selectMain"
-              placeholder="목적지를 검색하세요"
-              value={keyword}
-              onChange={this.handleChange}
-              name="name"
-            />
-            <input
-              id="searchMain"
-              type="submit"
-              value="검색"
-              onClick={appClick}
-            />
-          </form>
-          {/* <div>
+      <div>
+        <form /* 서버로 keyword 보내기 */
+          action="http://cafeaddy.xyz:8080/api/name"
+          method="post"
+          onSubmit={this.handleSubmit}
+        >
+          <input
+            type="text"
+            id="selectMain"
+            placeholder="목적지를 검색하세요"
+            value={keyword}
+            onChange={this.handleChange}
+            name="name"
+          />
+          <input
+            id="searchMain"
+            type="submit"
+            value="검색"
+            onClick={() => {
+              appClick(keyword);
+            }}
+          />
+        </form>
+        {/* <div>
               <h4>"{keyword}"에 대한 검색 결과입니다.</h4> 
           </div> */}
-
-        </div>
+      </div>
     );
   }
 }

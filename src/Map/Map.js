@@ -230,7 +230,6 @@ class Map extends React.Component {
             lng: 126.9784147, // 현재위치 Lng
           }}
         >
-
           <Search />
 
           {/* bound 사각형 생성 */}

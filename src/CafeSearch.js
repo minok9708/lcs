@@ -56,11 +56,12 @@ class CafeSearch extends React.Component {
     return (
       <div>
         <div>
-          <center>
-            <Search onCreate={this.handleCreate} />
+          <center style={{width:"100%", backgroundColor:"gray"}}>
+            <Search  onCreate={this.handleCreate} onSubmit={this.handleSubmit}/>
           </center>
         </div>
         <div>
+        {/* <h4>"{this.handleSubmit}"에 대한 검색 결과입니다.</h4> */}
         </div>
 
         <div>{postsLsit}</div>
