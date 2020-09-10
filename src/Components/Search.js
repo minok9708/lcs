@@ -3,8 +3,6 @@
  */
 import React from "react";
 import "./App.css";
-import {Link} from "react-router-dom";
-import CafeSearch from "../CafeSearch";
 
 class Search extends React.Component {
   /* 메인페이지 검색기능 */
@@ -21,10 +19,6 @@ class Search extends React.Component {
   appClick = (e) => {
     console.log(e);
     console.log("키워드:" + e.state.keyword);
-
-   /*  {
-      ("<div> hello </div>");
-    } */
   };
 
   handleSubmit = (e) => {

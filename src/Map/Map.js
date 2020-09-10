@@ -1,23 +1,10 @@
 import React, {Fragment} from "react";
-import {NaverMap, Marker, Rectangle} from "react-naver-maps"; // 패키지 불러오기
+import {NaverMap, Marker} from "react-naver-maps"; // 패키지 불러오기
 import "./Map.css";
 /* import "../Components/App.css"; */
-import {markerdata} from "../markerdata.js";
 import axios from "axios";
 import Search from "../Components/Search.js";
-/* import infoWindow from "../infoWindow"; */
 
-/* 경계 가시화 (빨간색 사각형)
-const Rect = (props) => (
-  <Rectangle
-    strokeOpacity={0}
-    strokeWeight={0}
-    fillOpacity={0.2}
-    fillColor={"#f00"}
-    /*   bounds = {window.naver.maps.getBounds()}/* 지도의 bounds와 동일한 크기의 사각형 그림  
-    {...props}
-  />
-); */
 
 class Map extends React.Component {
   constructor(props) {
@@ -46,22 +33,31 @@ class Map extends React.Component {
       swLongitude: "",
       neLatitude: "",
       neLongitude: "",
+      cafeData: [],
     };
 
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
   }
-  /* 클릭햇을때 정보 얻어오는것 */
 
-  /*   handleClick = (e) => {
-    console.log("e.coord >>>", e.coord);
-    this.setState({
-      input_latlng: e.coord + "",
-    });
-  }; */
+
+  loadItem = async () => {
+    axios
+      .get("http://cafeaddy.xyz:8080/api/cafes")
+      .then(({data}) => {
+        this.setState({
+          cafeData: data.data,
+        });
+      })
+      .catch((error) => {
+        // API 호출이 실패한 경우
+        console.error(error); //에러 표시
+      });
+  };
 
   // 컴포넌트가 DOM 위에 만들어지기 전에 실행됨
   componentWillMount() {
     console.log("componentWillMount");
+    this.loadItem(); // loadItem 호출
   }
 
   handleToZoomLevelOne = (e) => {
@@ -82,8 +78,7 @@ class Map extends React.Component {
     // 요기 if 문안에 통신 코드 작성하게 되면 지정한 초만큼 기다렸다가 통신
     if (this.rectTimeout) clearTimeout(this.rectTimeout);
     this.rectTimeout = setTimeout(() => {
-      /* 색깔 */
-      //this.setState({ rect: <Rect bounds={this.state.bounds} /> });
+      
       console.log(bounds.getSW());
       console.log(bounds.getNE());
 
@@ -163,7 +158,7 @@ class Map extends React.Component {
 
     /* GPS 사용 가능 */
     if (navigator.geolocation) {
-      alert("Geolocation API 사용 가능");
+      /*  alert("Geolocation API 사용 가능"); */
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -211,7 +206,10 @@ class Map extends React.Component {
 
   render() {
     const {currentLat, currentLng} = this.state;
-    const {infoWindow} = this.state;
+    const {cafeData} = this.state;
+
+      console.log(cafeData)
+     
     return (
       <Fragment>
         <NaverMap
@@ -234,6 +232,7 @@ class Map extends React.Component {
 
           {/* bound 사각형 생성 */}
           {this.state.rect}
+
           <Marker
             id="map"
             position={{
@@ -246,15 +245,16 @@ class Map extends React.Component {
               );
             }}
           ></Marker>
+         
           {/* 마커 리스트 가지고 동적으로 반복하여 생성  */}
-          {markerdata.map((marker, index) => {
+          {cafeData.map((marker, index) => {
             return (
               <Marker
                 name={marker.name}
                 key={index}
                 position={{
-                  lat: marker.lat,
-                  lng: marker.lng,
+                  lat: marker.latitude,
+                  lng: marker.longitude,
                 }}
                 title={marker.name}
                 animation={0}
@@ -262,7 +262,7 @@ class Map extends React.Component {
                   url: "https://maps.google.com/mapfiles/ms/icons/red.png",
                 }}
                 onClick={() => {
-                  /* alert(`여기는 ${marker.name}입니다.`); */
+                   alert(`여기는 ${marker.name}입니다.`); 
                 }}
               />
             );
