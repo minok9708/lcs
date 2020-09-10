@@ -38,7 +38,6 @@ class Map extends React.Component {
     this.handleBoundsChanged = this.handleBoundsChanged.bind(this);
   }
 
-
   // 컴포넌트가 DOM 위에 만들어지기 전에 실행됨
   componentWillMount() {
     console.log("componentWillMount");
@@ -74,7 +73,7 @@ class Map extends React.Component {
       });
 
       // /* 화면 좌표 서버로 전송 */
-      let mapUrl = "https://cafeaddy.xyz:8080/api/cafes/around";
+      let mapUrl = "http://cafeaddy.xyz:8080/api/cafes/around";
       axios({
         method: "get",
         headers: {
@@ -94,7 +93,6 @@ class Map extends React.Component {
           this.setState({
             cafeData: data.data,
           });
-          
         })
         .catch((error) => {
           console.log("error:", error.response);
@@ -129,9 +127,6 @@ class Map extends React.Component {
 
     /* 맵 생성시 초기 bounds 알기위해 레퍼런스에 직접 접근하기 위함 */
     this.changeBounds(this.mapRef.getBounds());
-    {
-      console.log(this.mapRef.getBounds());
-    }
 
     /* GPS 사용 가능 */
     if (navigator.geolocation) {
