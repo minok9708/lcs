@@ -5,7 +5,6 @@ import "./Map.css";
 import axios from "axios";
 import Search from "../Components/Search.js";
 
-
 class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -40,24 +39,10 @@ class Map extends React.Component {
   }
 
 
-  loadItem = async () => {
-    axios
-      .get("http://cafeaddy.xyz:8080/api/cafes")
-      .then(({data}) => {
-        this.setState({
-          cafeData: data.data,
-        });
-      })
-      .catch((error) => {
-        // API 호출이 실패한 경우
-        console.error(error); //에러 표시
-      });
-  };
-
   // 컴포넌트가 DOM 위에 만들어지기 전에 실행됨
   componentWillMount() {
     console.log("componentWillMount");
-    this.loadItem(); // loadItem 호출
+    // this.loadItem(); // loadItem 호출
   }
 
   handleToZoomLevelOne = (e) => {
@@ -78,14 +63,8 @@ class Map extends React.Component {
     // 요기 if 문안에 통신 코드 작성하게 되면 지정한 초만큼 기다렸다가 통신
     if (this.rectTimeout) clearTimeout(this.rectTimeout);
     this.rectTimeout = setTimeout(() => {
-      
       console.log(bounds.getSW());
       console.log(bounds.getNE());
-
-      let swLatitude = swLatlng._lat;
-      let swLongitude = swLatlng._lng;
-      let neLatitude = neLatlng._lat;
-      let neLongitude = neLatlng._lng;
 
       this.setState({
         swLatitude: swLatlng._lat,
@@ -94,52 +73,47 @@ class Map extends React.Component {
         neLongitude: neLatlng._lng,
       });
 
-      let message = `남서쪽 위도, 경도는 ${swLatitude},${swLongitude}\n
-      북동쪽 위도, 경도는 ${neLatitude},${neLongitude}`;
-      console.log(message);
-
-      // let data = {xPoint: 127.067628, yPoint: 37.5969417};
-      // console.log(data);
-
-      let mapUrl = "http://cafeaddy.xyz:8080/api/cafes";
-
-      let headers = new Headers();
-
-      headers.append("Access-Control-Allow-Origin", "*");
-      // headers.append("Content-Type", "application/json;");
-      var params = new URLSearchParams();
-
-      params.append("swLatitude", this.state.swLatitude);
-      params.append("swLongitude", this.state.swLongitude);
-      params.append("neLatitude", this.state.neLatitude);
-      params.append("neLongitude", this.state.neLongitude);
-      console.log(
-        this.state.swLatitude,
-        swLatlng._lng,
-        neLatlng._lat,
-        neLatlng._lng
-      );
-
-      /* 화면 좌표 서버로 전송 */
-      /* axios({
-        method: "post",
-        headers: {"Content-Type": `application/json`},
+      // /* 화면 좌표 서버로 전송 */
+      let mapUrl = "http://cafeaddy.xyz:8080/api/cafes/around";
+      axios({
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         url: mapUrl,
-        data: {
-          swLatitude: this.state.swLatitude,
-          swLongitude: this.state.swLongitude,
-          neLatitude: this.state.neLatitude,
+        data: {},
+        params: {
           neLongitude: this.state.neLongitude,
+          neLatitude: this.state.neLatitude,
+          swLongitude: this.state.swLongitude,
+          swLatitude: this.state.swLatitude,
         },
       })
-        .then(function (response) {
-          /* 정상적으로 데이터를 받았을경우 
-          console.log(response);
+        .then(({data}) => {
+          this.setState({
+            cafeData: data.data,
+          });
+          
         })
         .catch((error) => {
-          /* 에러 catch 
           console.log("error:", error.response);
-        }); */
+        });
+
+      // axios
+      //   .get('http://cafeaddy.xyz:8080/api/cafes/around', {
+      //     params : {
+      //       test
+      //     }
+      //   })
+      //   .then(({data}) => {
+      //     this.setState({
+      //       cafeData: data.data,
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     console.log("error:", error.response);
+      //   });
     }, 500);
   }
 
@@ -155,6 +129,9 @@ class Map extends React.Component {
 
     /* 맵 생성시 초기 bounds 알기위해 레퍼런스에 직접 접근하기 위함 */
     this.changeBounds(this.mapRef.getBounds());
+    {
+      console.log(this.mapRef.getBounds());
+    }
 
     /* GPS 사용 가능 */
     if (navigator.geolocation) {
@@ -170,6 +147,34 @@ class Map extends React.Component {
             lng = position.coords.longitude;
 
           let locPosition = new navermaps.LatLng(lat, lng);
+
+          /* 화면 좌표 서버로 전송 */
+          /* this.mapRef. */
+          /* let mapUrl = "http://cafeaddy.xyz:8080/api/cafes/around";
+          axios({
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            url: mapUrl,
+            data: {},
+            params: {
+              neLongitude: this.mapRef.getBounds().getNE()._lng,
+              neLatitude: this.mapRef.getBounds().getNE()._lat,
+              swLongitude: this.mapRef.getBounds().getSW()._lng,
+              swLatitude: this.mapRef.getBounds().getSW()._lat,
+            },
+          })
+            .then(({data}) => {
+              this.setState({
+                cafeData: data.data,
+              });
+              alert("성공");
+            })
+            .catch((error) => {
+              console.log("error:", error.response);
+            }); */
 
           /* 현재 위치에 대한 정보를 setState를 통해서 state에 저장 */
           this.setState({
@@ -208,8 +213,6 @@ class Map extends React.Component {
     const {currentLat, currentLng} = this.state;
     const {cafeData} = this.state;
 
-      console.log(cafeData)
-     
     return (
       <Fragment>
         <NaverMap
@@ -245,7 +248,7 @@ class Map extends React.Component {
               );
             }}
           ></Marker>
-         
+
           {/* 마커 리스트 가지고 동적으로 반복하여 생성  */}
           {cafeData.map((marker, index) => {
             return (
@@ -262,7 +265,7 @@ class Map extends React.Component {
                   url: "https://maps.google.com/mapfiles/ms/icons/red.png",
                 }}
                 onClick={() => {
-                   alert(`여기는 ${marker.name}입니다.`); 
+                  alert(`여기는 ${marker.name}입니다.`);
                 }}
               />
             );
