@@ -73,7 +73,7 @@ class Map extends React.Component {
       });
 
       // /* 화면 좌표 서버로 전송 */
-      let mapUrl = "http://cafeaddy.xyz:8080/api/cafes/around";
+      let mapUrl = "https://cafeaddy.xyz:8080/api/cafes/around";
       axios({
         method: "get",
         headers: {
